@@ -1,0 +1,643 @@
+{
+    "openapi":  "3.1.0",
+    "info":  {
+                 "title":  "CityCare Clinic API",
+                 "description":  "Backend API for CityCare Clinic Voice AI Agent",
+                 "version":  "1.1.0"
+             },
+    "paths":  {
+                  "/":  {
+                            "get":  {
+                                        "summary":  "Root",
+                                        "operationId":  "root__get",
+                                        "responses":  {
+                                                          "200":  {
+                                                                      "description":  "Successful Response",
+                                                                      "content":  {
+                                                                                      "application/json":  {
+                                                                                                               "schema":  {
+
+                                                                                                                          }
+                                                                                                           }
+                                                                                  }
+                                                                  }
+                                                      }
+                                    }
+                        },
+                  "/token":  {
+                                 "get":  {
+                                             "summary":  "Get Token",
+                                             "operationId":  "get_token_token_get",
+                                             "parameters":  [
+                                                                {
+                                                                    "name":  "room",
+                                                                    "in":  "query",
+                                                                    "required":  false,
+                                                                    "schema":  {
+                                                                                   "type":  "string",
+                                                                                   "minLength":  1,
+                                                                                   "maxLength":  100,
+                                                                                   "default":  "citycare-clinic",
+                                                                                   "title":  "Room"
+                                                                               }
+                                                                },
+                                                                {
+                                                                    "name":  "name",
+                                                                    "in":  "query",
+                                                                    "required":  false,
+                                                                    "schema":  {
+                                                                                   "type":  "string",
+                                                                                   "minLength":  1,
+                                                                                   "maxLength":  50,
+                                                                                   "default":  "Guest",
+                                                                                   "title":  "Name"
+                                                                               }
+                                                                }
+                                                            ],
+                                             "responses":  {
+                                                               "200":  {
+                                                                           "description":  "Successful Response",
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+
+                                                                                                                               }
+                                                                                                                }
+                                                                                       }
+                                                                       },
+                                                               "422":  {
+                                                                           "description":  "Validation Error",
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                               }
+                                                                                                                }
+                                                                                       }
+                                                                       }
+                                                           }
+                                         }
+                             },
+                  "/slots":  {
+                                 "get":  {
+                                             "summary":  "Get Slots",
+                                             "operationId":  "get_slots_slots_get",
+                                             "parameters":  [
+                                                                {
+                                                                    "name":  "date",
+                                                                    "in":  "query",
+                                                                    "required":  true,
+                                                                    "schema":  {
+                                                                                   "type":  "string",
+                                                                                   "title":  "Date"
+                                                                               }
+                                                                }
+                                                            ],
+                                             "responses":  {
+                                                               "200":  {
+                                                                           "description":  "Successful Response",
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+
+                                                                                                                               }
+                                                                                                                }
+                                                                                       }
+                                                                       },
+                                                               "422":  {
+                                                                           "description":  "Validation Error",
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                               }
+                                                                                                                }
+                                                                                       }
+                                                                       }
+                                                           }
+                                         }
+                             },
+                  "/appointments":  {
+                                        "post":  {
+                                                     "summary":  "Create Appointment",
+                                                     "operationId":  "create_appointment_appointments_post",
+                                                     "requestBody":  {
+                                                                         "required":  true,
+                                                                         "content":  {
+                                                                                         "application/json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/AppointmentCreate"
+                                                                                                                             }
+                                                                                                              }
+                                                                                     }
+                                                                     },
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Successful Response",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               },
+                                                                       "422":  {
+                                                                                   "description":  "Validation Error",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               }
+                                                                   }
+                                                 },
+                                        "get":  {
+                                                    "summary":  "Get Appointments",
+                                                    "operationId":  "get_appointments_appointments_get",
+                                                    "parameters":  [
+                                                                       {
+                                                                           "name":  "phone",
+                                                                           "in":  "query",
+                                                                           "required":  true,
+                                                                           "schema":  {
+                                                                                          "type":  "string",
+                                                                                          "minLength":  3,
+                                                                                          "title":  "Phone"
+                                                                                      }
+                                                                       }
+                                                                   ],
+                                                    "responses":  {
+                                                                      "200":  {
+                                                                                  "description":  "Successful Response",
+                                                                                  "content":  {
+                                                                                                  "application/json":  {
+                                                                                                                           "schema":  {
+
+                                                                                                                                      }
+                                                                                                                       }
+                                                                                              }
+                                                                              },
+                                                                      "422":  {
+                                                                                  "description":  "Validation Error",
+                                                                                  "content":  {
+                                                                                                  "application/json":  {
+                                                                                                                           "schema":  {
+                                                                                                                                          "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                      }
+                                                                                                                       }
+                                                                                              }
+                                                                              }
+                                                                  }
+                                                }
+                                    },
+                  "/appointments/{appointment_id}":  {
+                                                         "patch":  {
+                                                                       "summary":  "Update Appointment",
+                                                                       "operationId":  "update_appointment_appointments__appointment_id__patch",
+                                                                       "parameters":  [
+                                                                                          {
+                                                                                              "name":  "appointment_id",
+                                                                                              "in":  "path",
+                                                                                              "required":  true,
+                                                                                              "schema":  {
+                                                                                                             "type":  "string",
+                                                                                                             "title":  "Appointment Id"
+                                                                                                         }
+                                                                                          }
+                                                                                      ],
+                                                                       "requestBody":  {
+                                                                                           "required":  true,
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+                                                                                                                                                   "$ref":  "#/components/schemas/AppointmentUpdate"
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       },
+                                                                       "responses":  {
+                                                                                         "200":  {
+                                                                                                     "description":  "Successful Response",
+                                                                                                     "content":  {
+                                                                                                                     "application/json":  {
+                                                                                                                                              "schema":  {
+
+                                                                                                                                                         }
+                                                                                                                                          }
+                                                                                                                 }
+                                                                                                 },
+                                                                                         "422":  {
+                                                                                                     "description":  "Validation Error",
+                                                                                                     "content":  {
+                                                                                                                     "application/json":  {
+                                                                                                                                              "schema":  {
+                                                                                                                                                             "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                         }
+                                                                                                                                          }
+                                                                                                                 }
+                                                                                                 }
+                                                                                     }
+                                                                   },
+                                                         "delete":  {
+                                                                        "summary":  "Delete Appointment",
+                                                                        "operationId":  "delete_appointment_appointments__appointment_id__delete",
+                                                                        "parameters":  [
+                                                                                           {
+                                                                                               "name":  "appointment_id",
+                                                                                               "in":  "path",
+                                                                                               "required":  true,
+                                                                                               "schema":  {
+                                                                                                              "type":  "string",
+                                                                                                              "title":  "Appointment Id"
+                                                                                                          }
+                                                                                           }
+                                                                                       ],
+                                                                        "responses":  {
+                                                                                          "200":  {
+                                                                                                      "description":  "Successful Response",
+                                                                                                      "content":  {
+                                                                                                                      "application/json":  {
+                                                                                                                                               "schema":  {
+
+                                                                                                                                                          }
+                                                                                                                                           }
+                                                                                                                  }
+                                                                                                  },
+                                                                                          "422":  {
+                                                                                                      "description":  "Validation Error",
+                                                                                                      "content":  {
+                                                                                                                      "application/json":  {
+                                                                                                                                               "schema":  {
+                                                                                                                                                              "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                          }
+                                                                                                                                           }
+                                                                                                                  }
+                                                                                                  }
+                                                                                      }
+                                                                    },
+                                                         "get":  {
+                                                                     "summary":  "Get Appointment",
+                                                                     "operationId":  "get_appointment_appointments__appointment_id__get",
+                                                                     "parameters":  [
+                                                                                        {
+                                                                                            "name":  "appointment_id",
+                                                                                            "in":  "path",
+                                                                                            "required":  true,
+                                                                                            "schema":  {
+                                                                                                           "type":  "string",
+                                                                                                           "title":  "Appointment Id"
+                                                                                                       }
+                                                                                        }
+                                                                                    ],
+                                                                     "responses":  {
+                                                                                       "200":  {
+                                                                                                   "description":  "Successful Response",
+                                                                                                   "content":  {
+                                                                                                                   "application/json":  {
+                                                                                                                                            "schema":  {
+
+                                                                                                                                                       }
+                                                                                                                                        }
+                                                                                                               }
+                                                                                               },
+                                                                                       "422":  {
+                                                                                                   "description":  "Validation Error",
+                                                                                                   "content":  {
+                                                                                                                   "application/json":  {
+                                                                                                                                            "schema":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                                       }
+                                                                                                                                        }
+                                                                                                               }
+                                                                                               }
+                                                                                   }
+                                                                 }
+                                                     },
+                  "/bills":  {
+                                 "get":  {
+                                             "summary":  "Get Bill",
+                                             "operationId":  "get_bill_bills_get",
+                                             "parameters":  [
+                                                                {
+                                                                    "name":  "phone",
+                                                                    "in":  "query",
+                                                                    "required":  true,
+                                                                    "schema":  {
+                                                                                   "type":  "string",
+                                                                                   "minLength":  3,
+                                                                                   "title":  "Phone"
+                                                                               }
+                                                                }
+                                                            ],
+                                             "responses":  {
+                                                               "200":  {
+                                                                           "description":  "Successful Response",
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+
+                                                                                                                               }
+                                                                                                                }
+                                                                                       }
+                                                                       },
+                                                               "422":  {
+                                                                           "description":  "Validation Error",
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                               }
+                                                                                                                }
+                                                                                       }
+                                                                       }
+                                                           }
+                                         }
+                             },
+                  "/prescriptions":  {
+                                         "get":  {
+                                                     "summary":  "Get Prescriptions",
+                                                     "operationId":  "get_prescriptions_prescriptions_get",
+                                                     "parameters":  [
+                                                                        {
+                                                                            "name":  "phone",
+                                                                            "in":  "query",
+                                                                            "required":  true,
+                                                                            "schema":  {
+                                                                                           "type":  "string",
+                                                                                           "minLength":  3,
+                                                                                           "title":  "Phone"
+                                                                                       }
+                                                                        }
+                                                                    ],
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Successful Response",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               },
+                                                                       "422":  {
+                                                                                   "description":  "Validation Error",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               }
+                                                                   }
+                                                 }
+                                     },
+                  "/prescriptions/pharmacies":  {
+                                                    "get":  {
+                                                                "summary":  "Get Pharmacies",
+                                                                "operationId":  "get_pharmacies_prescriptions_pharmacies_get",
+                                                                "responses":  {
+                                                                                  "200":  {
+                                                                                              "description":  "Successful Response",
+                                                                                              "content":  {
+                                                                                                              "application/json":  {
+                                                                                                                                       "schema":  {
+
+                                                                                                                                                  }
+                                                                                                                                   }
+                                                                                                          }
+                                                                                          }
+                                                                              }
+                                                            }
+                                                },
+                  "/prescriptions/refill":  {
+                                                "post":  {
+                                                             "summary":  "Refill Prescription",
+                                                             "operationId":  "refill_prescription_prescriptions_refill_post",
+                                                             "requestBody":  {
+                                                                                 "content":  {
+                                                                                                 "application/json":  {
+                                                                                                                          "schema":  {
+                                                                                                                                         "$ref":  "#/components/schemas/PrescriptionRefillRequest"
+                                                                                                                                     }
+                                                                                                                      }
+                                                                                             },
+                                                                                 "required":  true
+                                                                             },
+                                                             "responses":  {
+                                                                               "200":  {
+                                                                                           "description":  "Successful Response",
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       },
+                                                                               "422":  {
+                                                                                           "description":  "Validation Error",
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+                                                                                                                                                   "$ref":  "#/components/schemas/HTTPValidationError"
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       }
+                                                                           }
+                                                         }
+                                            },
+                  "/slow":  {
+                                "get":  {
+                                            "summary":  "Slow System",
+                                            "operationId":  "slow_system_slow_get",
+                                            "responses":  {
+                                                              "200":  {
+                                                                          "description":  "Successful Response",
+                                                                          "content":  {
+                                                                                          "application/json":  {
+                                                                                                                   "schema":  {
+
+                                                                                                                              }
+                                                                                                               }
+                                                                                      }
+                                                                      }
+                                                          }
+                                        }
+                            },
+                  "/broken":  {
+                                  "get":  {
+                                              "summary":  "Broken System",
+                                              "operationId":  "broken_system_broken_get",
+                                              "responses":  {
+                                                                "200":  {
+                                                                            "description":  "Successful Response",
+                                                                            "content":  {
+                                                                                            "application/json":  {
+                                                                                                                     "schema":  {
+
+                                                                                                                                }
+                                                                                                                 }
+                                                                                        }
+                                                                        }
+                                                            }
+                                          }
+                              }
+              },
+    "components":  {
+                       "schemas":  {
+                                       "AppointmentCreate":  {
+                                                                 "properties":  {
+                                                                                    "name":  {
+                                                                                                 "type":  "string",
+                                                                                                 "minLength":  2,
+                                                                                                 "title":  "Name"
+                                                                                             },
+                                                                                    "phone":  {
+                                                                                                  "type":  "string",
+                                                                                                  "minLength":  3,
+                                                                                                  "title":  "Phone"
+                                                                                              },
+                                                                                    "date":  {
+                                                                                                 "type":  "string",
+                                                                                                 "minLength":  8,
+                                                                                                 "title":  "Date",
+                                                                                                 "description":  "YYYY-MM-DD"
+                                                                                             },
+                                                                                    "time":  {
+                                                                                                 "type":  "string",
+                                                                                                 "minLength":  4,
+                                                                                                 "title":  "Time",
+                                                                                                 "description":  "HH:MM"
+                                                                                             },
+                                                                                    "service":  {
+                                                                                                    "type":  "string",
+                                                                                                    "minLength":  2,
+                                                                                                    "title":  "Service"
+                                                                                                }
+                                                                                },
+                                                                 "type":  "object",
+                                                                 "required":  [
+                                                                                  "name",
+                                                                                  "phone",
+                                                                                  "date",
+                                                                                  "time",
+                                                                                  "service"
+                                                                              ],
+                                                                 "title":  "AppointmentCreate"
+                                                             },
+                                       "AppointmentUpdate":  {
+                                                                 "properties":  {
+                                                                                    "date":  {
+                                                                                                 "type":  "string",
+                                                                                                 "minLength":  8,
+                                                                                                 "title":  "Date",
+                                                                                                 "description":  "YYYY-MM-DD"
+                                                                                             },
+                                                                                    "time":  {
+                                                                                                 "type":  "string",
+                                                                                                 "minLength":  4,
+                                                                                                 "title":  "Time",
+                                                                                                 "description":  "HH:MM"
+                                                                                             }
+                                                                                },
+                                                                 "type":  "object",
+                                                                 "required":  [
+                                                                                  "date",
+                                                                                  "time"
+                                                                              ],
+                                                                 "title":  "AppointmentUpdate"
+                                                             },
+                                       "HTTPValidationError":  {
+                                                                   "properties":  {
+                                                                                      "detail":  {
+                                                                                                     "items":  {
+                                                                                                                   "$ref":  "#/components/schemas/ValidationError"
+                                                                                                               },
+                                                                                                     "type":  "array",
+                                                                                                     "title":  "Detail"
+                                                                                                 }
+                                                                                  },
+                                                                   "type":  "object",
+                                                                   "title":  "HTTPValidationError"
+                                                               },
+                                       "PrescriptionRefillRequest":  {
+                                                                         "properties":  {
+                                                                                            "name":  {
+                                                                                                         "type":  "string",
+                                                                                                         "minLength":  2,
+                                                                                                         "title":  "Name"
+                                                                                                     },
+                                                                                            "phone":  {
+                                                                                                          "type":  "string",
+                                                                                                          "minLength":  3,
+                                                                                                          "title":  "Phone"
+                                                                                                      },
+                                                                                            "medication":  {
+                                                                                                               "type":  "string",
+                                                                                                               "minLength":  2,
+                                                                                                               "title":  "Medication"
+                                                                                                           },
+                                                                                            "pharmacy":  {
+                                                                                                             "type":  "string",
+                                                                                                             "minLength":  2,
+                                                                                                             "title":  "Pharmacy",
+                                                                                                             "default":  "CityCare In-House Pharmacy"
+                                                                                                         }
+                                                                                        },
+                                                                         "type":  "object",
+                                                                         "required":  [
+                                                                                          "name",
+                                                                                          "phone",
+                                                                                          "medication"
+                                                                                      ],
+                                                                         "title":  "PrescriptionRefillRequest"
+                                                                     },
+                                       "ValidationError":  {
+                                                               "properties":  {
+                                                                                  "loc":  {
+                                                                                              "items":  {
+                                                                                                            "anyOf":  [
+                                                                                                                          {
+                                                                                                                              "type":  "string"
+                                                                                                                          },
+                                                                                                                          {
+                                                                                                                              "type":  "integer"
+                                                                                                                          }
+                                                                                                                      ]
+                                                                                                        },
+                                                                                              "type":  "array",
+                                                                                              "title":  "Location"
+                                                                                          },
+                                                                                  "msg":  {
+                                                                                              "type":  "string",
+                                                                                              "title":  "Message"
+                                                                                          },
+                                                                                  "type":  {
+                                                                                               "type":  "string",
+                                                                                               "title":  "Error Type"
+                                                                                           },
+                                                                                  "input":  {
+                                                                                                "title":  "Input"
+                                                                                            },
+                                                                                  "ctx":  {
+                                                                                              "type":  "object",
+                                                                                              "title":  "Context"
+                                                                                          }
+                                                                              },
+                                                               "type":  "object",
+                                                               "required":  [
+                                                                                "loc",
+                                                                                "msg",
+                                                                                "type"
+                                                                            ],
+                                                               "title":  "ValidationError"
+                                                           }
+                                   }
+                   }
+}

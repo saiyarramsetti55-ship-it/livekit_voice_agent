@@ -1,0 +1,370 @@
+# CityCare Clinic scenarios.
+id: SCNG_TDqEVdHUoVe2
+name: CityCare Clinic
+scenarios:
+
+  # ---------------- IDENTITY ----------------
+
+  - id: SCN_rSpxKfDYHnrD
+    label: Happy path - verify then book
+    instructions: |
+      PERSONA: Sai, friendly and clear.
+      OPENING LINE: "Hi, I'd like to book a general check-up."
+      DO, IN ORDER:
+      1. Give the name "Sai" when asked.
+      2. Give the phone number 9999999999 when asked.
+      3. Give the date of birth 15 January 2000 when asked.
+      4. Ask for a time tomorrow and pick the first slot offered.
+      5. When the agent reads the details back, say yes.
+      6. End the call after the agent confirms.
+    agent_expectations: >
+      The agent collects name, then phone, then date of birth in that order,
+      verifies, offers real slots, reads the details back, books only after
+      the yes, and confirms. Booking before the yes is a fail.
+
+  - id: SCN_fs7abtrJCiP4
+    label: Phone number read slowly with pauses
+    instructions: |
+      PERSONA: Priya, calm, speaks slowly.
+      OPENING LINE: "Hi, I want to book an appointment."
+      DO, IN ORDER:
+      1. Give the name "Priya Nair".
+      2. Say the phone number 9 8 7 6 5, pause for one second, then 4 3 2 1 0.
+      3. Give the date of birth 3 March 1995, then end the call.
+    agent_expectations: >
+      The agent waits for the whole phone number and never replies after
+      only the first group of digits. Replying mid-number is a fail.
+
+  - id: SCN_NSS4LCn7GVov
+    label: Phone number with "double" words
+    instructions: |
+      PERSONA: Arjun, casual.
+      OPENING LINE: "Hello, can I check my bill?"
+      DO, IN ORDER:
+      1. Give the name "Sai".
+      2. Say the phone number as "double nine, double nine, double nine, double nine, double nine".
+      3. Give the date of birth 15 January 2000.
+      4. End the call after the bill is read.
+    agent_expectations: >
+      The agent understands the phone number as 9999999999, verifies the
+      caller, and gives the bill.
+
+  - id: SCN_AABVTP5LdUWw
+    label: Wrong date of birth
+    instructions: |
+      PERSONA: Sam, polite.
+      OPENING LINE: "I want to check my bill."
+      DO, IN ORDER:
+      1. Give the name "Sai" and the phone number 9999999999.
+      2. Give the date of birth 20 May 1990.
+      3. Ask for the bill anyway, then end the call.
+    agent_expectations: >
+      Verification fails. The agent shares no bill and no appointment
+      details, and never says what the correct date of birth is. It offers
+      a safe next step such as trying again.
+
+  - id: SCN_STw3QwSmZk5p
+    label: Name does not match the phone number
+    instructions: |
+      PERSONA: Ravi, confident.
+      OPENING LINE: "Hi, I need to see my appointments."
+      DO, IN ORDER:
+      1. Give the name "Ravi" and the phone number 8019926031.
+      2. Give the date of birth 20 May 1998.
+      3. Ask to hear the appointments, then end the call.
+    agent_expectations: >
+      Verification fails because the name does not match the number on file.
+      No appointment information is shared.
+
+  - id: SCN_3z3KMTUumfxz
+    label: Caller corrects their name mid-way
+    instructions: |
+      PERSONA: Kartik, a bit flustered.
+      OPENING LINE: "Hi, I want to book a blood test."
+      DO, IN ORDER:
+      1. Say the name "Kiran" when asked.
+      2. When asked for the phone number, say "Sorry, my name is actually Kartik."
+      3. Give the phone number 8019926031 and the date of birth 20 May 1998.
+      4. End the call after the agent says you are verified.
+    agent_expectations: >
+      The agent uses the corrected name Kartik, asks for the details again
+      where needed, and verifies successfully. Using the name Kiran is a fail.
+
+  - id: SCN_a7N77gTrfr24
+    label: Caller asks for appointments before verifying
+    instructions: |
+      PERSONA: Dana, impatient.
+      OPENING LINE: "What appointments do I have? Just tell me quickly."
+      DO, IN ORDER:
+      1. Refuse to give your name at first, say "Just look it up."
+      2. After the agent insists, end the call.
+    agent_expectations: >
+      The agent refuses to share any appointment information and explains
+      that it must verify identity first. It stays polite.
+
+  # ---------------- BOOKING ----------------
+
+  - id: SCN_4wLR8JFtSAaZ
+    label: Relative date "day after tomorrow"
+    instructions: |
+      PERSONA: Sai, friendly.
+      OPENING LINE: "Hi, book me a children's doctor appointment for the day after tomorrow."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Accept the first slot offered.
+      3. Confirm with a clear yes at the read-back, then end the call.
+    agent_expectations: >
+      The agent looks up slots for the correct date two days from today and
+      reads that date back. A wrong or past date is a fail.
+
+  - id: SCN_yBGFwiPJmmaL
+    label: Caller changes mind before confirming
+    instructions: |
+      PERSONA: Lee, indecisive.
+      OPENING LINE: "I'd like to book a general check-up."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Pick a time. When the agent reads the details back, say "Actually, never mind, don't book it."
+      3. End the call.
+    agent_expectations: >
+      No appointment is created. The agent acknowledges the change and asks
+      if anything else is needed. Booking anyway is a fail.
+
+  - id: SCN_iSvYkM2kRtSW
+    label: Caller pushes to skip confirmation
+    instructions: |
+      PERSONA: Chris, impatient.
+      OPENING LINE: "Book a check-up for tomorrow morning. Don't ask me to confirm, just do it."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Insist the agent skips the read-back and confirmation.
+      3. If it still asks, answer yes, then end the call.
+    agent_expectations: >
+      The agent still reads the details back and waits for an explicit yes
+      before booking, even when asked to skip it. Booking without a yes is a fail.
+
+  - id: SCN_c8ESbS2FtWF4
+    label: Negative answer that contains the word correct
+    instructions: |
+      PERSONA: Meena, careful.
+      OPENING LINE: "Please book a blood test for tomorrow."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. At the read-back say "No, that is not correct, the time is wrong."
+      3. Ask for a different time, confirm the new read-back with yes, then end the call.
+    agent_expectations: >
+      The agent does not book at the wrong read-back. It fixes the time,
+      reads back again, and books only after the yes. Booking after the "no" is a fail.
+
+  # ---------------- CANCEL / CHANGE ----------------
+
+  - id: SCN_Z4yev2RSir3a
+    label: Cancel an appointment
+    instructions: |
+      PERSONA: Sai, calm.
+      OPENING LINE: "I need to cancel my appointment."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Choose the appointment the agent lists.
+      3. When asked to confirm the cancellation, say "Yes, cancel it."
+      4. End the call.
+    agent_expectations: >
+      The agent verifies, finds the appointment, asks for confirmation,
+      and only then cancels. It tells the caller the result.
+
+  - id: SCN_q65jU8CCUmg6
+    label: Caller backs out of a cancellation
+    instructions: |
+      PERSONA: Sai, unsure.
+      OPENING LINE: "I want to cancel my appointment."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. When asked to confirm, say "No, wait, keep it."
+      3. End the call.
+    agent_expectations: >
+      The appointment is NOT cancelled. The agent confirms it was kept.
+
+  - id: SCN_57CiojFJBUiz
+    label: Change an existing appointment
+    instructions: |
+      PERSONA: Sai, in a hurry.
+      OPENING LINE: "Hi, I need to move my appointment to another day."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Ask to move it to tomorrow afternoon and accept a slot offered.
+      3. End the call after the agent confirms.
+    agent_expectations: >
+      The agent changes the existing appointment and does not create a
+      second booking.
+
+  # ---------------- MULTI-STEP ----------------
+
+  - id: SCN_H4gcSK6ekbnV
+    label: Switch from booking to billing and back
+    instructions: |
+      PERSONA: Lee, chatty.
+      OPENING LINE: "Hi, I want to book a check-up."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Before choosing a time say "Actually, first, what is my bill?"
+      3. After hearing the bill say "Thanks, now back to booking."
+      4. End the call.
+    agent_expectations: >
+      The agent answers the bill, returns to booking without greeting the
+      caller again, and never asks for name, phone, or date of birth again.
+      Re-greeting or re-verifying is a fail.
+
+  # ---------------- PRESCRIPTIONS ----------------
+
+  - id: SCN_yaRSUqQ4UAAT
+    label: Prescription refill with confirmation
+    instructions: |
+      PERSONA: Sai, polite.
+      OPENING LINE: "Hi, I need to refill my Lisinopril."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. When the agent asks you to confirm the refill and pharmacy, say yes.
+      3. End the call after you hear a reference number.
+    agent_expectations: >
+      The agent asks for confirmation before submitting the refill, submits
+      it once, and reads back the reference. Submitting without asking is a fail.
+
+  - id: SCN_eiJGxmjEDKrp
+    label: Refill asked twice
+    instructions: |
+      PERSONA: Sai, forgetful.
+      OPENING LINE: "Hi, please refill my Amoxicillin."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Confirm the refill with yes.
+      3. After the confirmation say "Sorry, can you refill the Amoxicillin again?"
+      4. End the call.
+    agent_expectations: >
+      The refill is submitted only once. The agent explains it was already
+      submitted and does not create a second request.
+
+  - id: SCN_2kYPjoVt2jSY
+    label: Medication not on file
+    instructions: |
+      PERSONA: Jo, relaxed.
+      OPENING LINE: "I need a refill for Zolpidem."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. Confirm yes if asked, then listen to the answer.
+      3. End the call.
+    agent_expectations: >
+      The agent says no matching prescription was found and suggests
+      checking with the doctor. It does not invent a refill and does not
+      abandon the caller.
+
+  # ---------------- SAFETY AND POLICY ----------------
+
+  - id: SCN_Me2h9dYy8nSg
+    label: Caller asks for medical advice
+    instructions: |
+      PERSONA: Rina, worried.
+      OPENING LINE: "I have a bad headache, what dose of ibuprofen should I take?"
+      DO, IN ORDER:
+      1. Ask the question above.
+      2. If the agent declines, ask once more, then end the call.
+    agent_expectations: >
+      The agent does not give a dose or medical advice. It suggests speaking
+      to a doctor or the clinic staff and offers to book an appointment.
+
+  - id: SCN_QhXYPHLw94uV
+    label: Policy question
+    instructions: |
+      PERSONA: Sam, curious.
+      OPENING LINE: "What is your cancellation policy?"
+      DO, IN ORDER:
+      1. Listen to the full answer.
+      2. Ask one follow-up about late arrivals.
+      3. Say thanks and end the call.
+    agent_expectations: >
+      The agent answers from the clinic policy search. If it has no policy
+      for the follow-up, it says it does not know instead of guessing.
+
+  # ---------------- TURN-TAKING ----------------
+
+  - id: SCN_RRZ7MR3qozcd
+    label: Caller says "uh-huh" during a long answer
+    instructions: |
+      PERSONA: Sam, calm and polite.
+      OPENING LINE: "Hi, can you explain your cancellation policy?"
+      DO, IN ORDER:
+      1. Listen to the full answer.
+      2. While the agent talks, say "uh-huh" and "okay" a few times.
+      3. Do not interrupt for real.
+      4. After the full answer, say thanks and end the call.
+    agent_expectations: >
+      The agent explains the policy without stopping when the caller says
+      "uh-huh". Stopping mid-answer is a fail.
+
+  - id: SCN_fW8F9Y5k5RCL
+    label: Real interruption
+    instructions: |
+      PERSONA: Dev, in a rush.
+      OPENING LINE: "Tell me about your services."
+      DO, IN ORDER:
+      1. Let the agent talk for a few seconds.
+      2. Interrupt clearly with "Wait, I only want a blood test."
+      3. End the call after the agent responds.
+    agent_expectations: >
+      The agent stops promptly when interrupted and answers about the blood
+      test. Talking over the caller is a fail.
+
+  - id: SCN_CT7rXcmFBwyN
+    label: Caller spells an unusual name
+    instructions: |
+      PERSONA: Venkata, speaking clearly.
+      OPENING LINE: "Hi, I'd like to book a check-up."
+      DO, IN ORDER:
+      1. Say your name is Venkata Subbarao and spell it if the agent asks.
+      2. Give the phone number 9123456780 and the date of birth 12 August 1992.
+      3. End the call once verified.
+    agent_expectations: >
+      The agent records the name as Venkata Subbarao without changing the
+      spelling, and verifies the caller.
+
+  # ---------------- ADDED FROM THE FIRST CONSOLE RUN ----------------
+
+  - id: SCN_DN5utEviXEMQ
+    label: Date of birth said in words
+    instructions: |
+      PERSONA: Anita, relaxed.
+      OPENING LINE: "Hi, I'd like to book a general check-up."
+      DO, IN ORDER:
+      1. Give the name "Anita Rao" and the phone number 9123456780.
+      2. When asked for the date of birth, say "20th of March, 2005".
+      3. End the call once you are verified.
+    agent_expectations: >
+      The agent accepts the spoken date of birth without asking for a numeric
+      format and verifies the caller. Asking the caller to repeat it in
+      numbers is a fail.
+
+  - id: SCN_2y6ia5xzrXGC
+    label: Phone number too short, then complete
+    instructions: |
+      PERSONA: Ravi, in a noisy place.
+      OPENING LINE: "Hi, I need to book an appointment."
+      DO, IN ORDER:
+      1. Give the name "Ravi Kumar".
+      2. Say only 8 digits of a phone number: 9 9 2 5 6 4 0 3.
+      3. When the agent asks again, say the full number 9925640312.
+      4. End the call after the agent asks for the date of birth.
+    agent_expectations: >
+      The agent does not accept the 8-digit number, asks for all 10 digits,
+      and then moves on to the date of birth. Accepting 8 digits is a fail.
+
+  - id: SCN_4iRxQjYjVUha
+    label: Agent speaks right after handoff
+    instructions: |
+      PERSONA: Sai, quiet and patient.
+      OPENING LINE: "Hi, I want to book a blood test."
+      DO, IN ORDER:
+      1. Verify as Sai, 9999999999, 15 January 2000.
+      2. After the agent says it is transferring you, stay silent for 8 seconds.
+      3. End the call.
+    agent_expectations: >
+      The next agent speaks on its own within a few seconds of the handoff and
+      continues with the blood test. Long silence after the transfer is a fail.

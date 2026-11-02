@@ -1,0 +1,28 @@
+.env
+.env.local
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+node_modules/
+dist/
+build/
+*.log
+*.code-workspace
+
+# Python build artifacts
+*.egg-info/
+*.egg
+.eggs/
+
+# Tool timing data (auto-generated at runtime)
+src/tool_times.csv
+
+# Secrets and credentials
+credentials/
+*.json
+!package.json
+!package-lock.json
+!openapi-output.json
